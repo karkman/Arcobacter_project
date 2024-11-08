@@ -123,7 +123,7 @@ for barcode in 15 16 17; do
       --prefix barcode${barcode}  \
       --genus Arcobacter \
       --locus barcode${barcode} \
-      --threads $SLURMN_CPUS_PER_TASK \
+      --threads $SLURM_CPUS_PER_TASK \
       --output barcode${barcode}_bakta
 done
 ```
