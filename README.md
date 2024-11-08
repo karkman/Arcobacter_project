@@ -4,8 +4,8 @@
 
 ### Basecalling
 
-Three strains seqeunces with Nanopore Minion using the Rapid Barcoding (24) kit and r10.4.1 flow cell.  
-Basecalling was done with Dorado v.0.8.2 using all three different models (Apple M2 Max).  
+Three strains seqeunced with Nanopore Minion using the Rapid Barcoding (24) kit and r10.4.1 flow cell.  
+Basecalling was done with Dorado v.0.8.2 using all three different models (on Apple M2 Max).  
 
 Fast model as an example: 
 
@@ -89,12 +89,12 @@ The data will be assembled with Flye and Unicycler (miniasm + Racon).
 
 ```bash 
 for barcode in 15 16 17; do
-	flye \
+	/projappl/project_2005273/nano_assembly/bin/flye \
 		--nano-raw trimmed_nanopore/barcode${barcode}.fastq.gz \
     	--threads $SLURM_CPUS_PER_TASK \
     	--out-dir barcode${barcode}_flye
 
-	unicycler \
+	/projappl/project_2005273/unicyclerbin/unicycler \
 		--long trimmed_nanopore/barcode${barcode}.fastq.gz  \
 		--threads $SLURM_CPUS_PER_TASK \
 		--mode bold \
