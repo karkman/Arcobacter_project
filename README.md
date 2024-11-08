@@ -102,7 +102,7 @@ for barcode in 15 16 17; do
 done
 ```
 
-Assemblies will be compare using Quast
+Assemblies will be compared using Quast
 
 ```bash
 module load quast
