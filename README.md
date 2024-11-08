@@ -14,6 +14,7 @@ dorado basecaller \
     fast@latest \
     /Library/MinKNOW/data/Levis_thesis/Arcobacter/20241101_1509_MN45189_FBA32164_2b012041/pod5/ \
     --kit-name SQK-RBK114-24 > Arcobacter_fast.bam
+
 dorado demux \
     --output-dir Arcobacter_fast \
     --no-classify \
@@ -69,7 +70,7 @@ for barcode in 15 16 17; do
 done
 ```
 
-After choosing the best model, reads are trimmed based on the QC results with chopper.  
+After evaluating the QC outputs and choosing the best model, reads are trimmed based on the QC results with chopper.  
 
 ```bash
 best_model="sup"
