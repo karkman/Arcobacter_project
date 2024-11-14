@@ -106,7 +106,7 @@ for barcode in 15 16 17; do
 done
 ```
 
-Assemblies will be compared using Quast
+Assemblies will be compared using Quast.  
 _Resources: 1 CPU, 2 Gb mem, 30 min_
 
 ```bash
