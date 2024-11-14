@@ -24,6 +24,7 @@ dorado demux \
 ### Sequence QC and trimming 
 
 Quality control for the data from three different basecalling models to choose the best one.  
+_Resources: 1 CPU, 5 Gb mem, 2h_
 
 __fast__ 
 
@@ -71,6 +72,7 @@ done
 ```
 
 After evaluating the QC outputs and choosing the best model, reads are trimmed based on the QC results with chopper.  
+_Resources: 4 CPU, 5 Gb mem, 30 min_
 
 ```bash
 best_model="sup"
@@ -87,13 +89,14 @@ done
 ### Genome assembly 
 
 The data will be assembled with Flye and Unicycler (miniasm + Racon).  
+_Resources: 8 CPU, 20 Gb mem, 4h_
 
 ```bash 
 for barcode in 15 16 17; do
 	/projappl/project_2005273/nano_assembly/bin/flye \
 		--nano-raw trimmed_nanopore/barcode${barcode}.fastq.gz \
-    	--threads $SLURM_CPUS_PER_TASK \
-    	--out-dir barcode${barcode}_flye
+		--threads $SLURM_CPUS_PER_TASK \
+		--out-dir barcode${barcode}_flye
 
 	/projappl/project_2005273/unicyclerbin/unicycler \
 		--long trimmed_nanopore/barcode${barcode}.fastq.gz  \
@@ -104,6 +107,7 @@ done
 ```
 
 Assemblies will be compared using Quast
+_Resources: 1 CPU, 2 Gb mem, 30 min_
 
 ```bash
 module load quast
@@ -113,6 +117,7 @@ quast --output-dir QUAST_nanopore barcode*_flye/assembly.fasta barcode*_unicycle
 ### Genome annotation
 
 When choosing the best assembly methods, resulting genomes are annotated using bakta.  
+_Resources: 6 CPU, 10 Gb mem, 2h_
 
 ```bash
 best_assembler="flye"
