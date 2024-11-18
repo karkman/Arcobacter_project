@@ -175,3 +175,20 @@ export GTDBTK_DATA_PATH="/scratch/project_2005273/Arcobacter_project/DBs/gtdb/re
       --genome_dir Aliarcobacter_genomes/
 ```
 
+### Antibiotic resistance annotations
+
+Abricate & Abritamr
+Abritamr has also some species specific point mutations, so if we think to could be relevant, add `--species Campylobacter` to the command.  
+_Resources: 6 CPU, 10 Gb mem, 2h_
+
+```bash
+# abricate
+for barcode in 15 16 17; do
+	/projappl/project_2005273/arg_tools/bin/abricate --threads 6 --db resfinder barcode${barcode}_bakta/barcode${barcode}.fna > barcode${barcode}_abricate.out
+done 
+
+# abritamr
+for barcode in 15 16 17; do
+	/projappl/project_2005273/arg_tools/bin/abritamr run --jobs 6 barcode${barcode}_bakta/barcode${barcode}.fna --prefix barcode${barcode}_abritamr 
+done 
+```
