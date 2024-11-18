@@ -117,7 +117,7 @@ quast --output-dir QUAST_nanopore barcode*_flye/assembly.fasta barcode*_unicycle
 ### Genome annotation
 
 When choosing the best assembly methods, resulting genomes are annotated using bakta.  
-_Resources: 6 CPU, 10 Gb mem, 2h_
+_Resources: 6 CPU, 20 Gb mem, 2h_
 
 ```bash
 best_assembler="flye"
