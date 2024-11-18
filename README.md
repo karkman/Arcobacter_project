@@ -141,7 +141,9 @@ mkdir Aliarcobacter_genomes
 ln -s barcode*_bakta/*.fna Aliarcobacter_genomes/
 ```
 
-Genome completeness estimation  
+### Genome completeness estimation  
+
+We will use CheckM2 to estimate the completeness of the assemblies.  
 _Resources: 6 CPU, 75 Gb mem, 2h_
 
 ```bash
@@ -153,7 +155,9 @@ _Resources: 6 CPU, 75 Gb mem, 2h_
       --input Aliarcobacter_genomes/
 ```
 
-Taxonomic annotation
+### Taxonomic annotation
+
+We will use GTDB-tk for the taxonomic annotation of the strains.  
 _Resources: 6 CPU, 75 Gb mem, 2h_
 
 ```bash
