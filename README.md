@@ -117,7 +117,6 @@ quast --output-dir QUAST_nanopore barcode*_flye/assembly.fasta barcode*_unicycle
 ### Genome annotation
 
 When choosing the best assembly methods, resulting genomes are annotated using bakta.  
-Replace the `{STRAIN_NAME_HERE}` with the actual strain name.  
 _Resources: 6 CPU, 10 Gb mem, 2h_
 
 ```bash
@@ -126,13 +125,49 @@ best_assembler="flye"
 for barcode in 15 16 17; do
 	/projappl/project_2005273/bakta/bin/bakta \
        barcode${barcode}_${best_assembler}/assembly.fasta \
-      --db /scratch/project_2005273/DBs/bakta/db/ \
-      --prefix {STRAIN_NAME_HERE}  \
+      --db /scratch/project_2005273/Arcobacter_project/DBs/bakta/db \
+      --prefix barcode${barcode} \
       --genus Aliarcobacter \
-      --locus STRAIN_NAME_HERE \
+      --locus barcode${barcode} \
       --threads $SLURM_CPUS_PER_TASK \
-      --output {STRAIN_NAME_HERE}_bakta
+      --output barcode${barcode}_bakta
 done
 ```
 
-Then something else...
+Make a folder with softlinks for each of the genomes
+
+```bash
+mkdir Aliarcobacter_genomes
+ln -s barcode*_bakta/*.fna Aliarcobacter_genomes/
+```
+
+Genome completeness estimation  
+_Resources: 6 CPU, 75 Gb mem, 2h_
+
+```bash
+/projappl/project_2005273/tax_tools/bin/checkm2 predict \
+      --output-directory CheckM2_out \
+      --lowmem \
+      --extension .fna \
+      --tmpdir $TMPDIR \
+      --input Aliarcobacter_genomes/
+```
+
+Taxonomic annotation
+_Resources: 6 CPU, 75 Gb mem, 2h_
+
+```bash
+export GTDBTK_DATA_PATH="/scratch/project_2005273/Arcobacter_project/DBs/gtdb/release220"
+
+/projappl/project_2005273/tax_tools/bin/gtdbtk classify_wf \
+      --out_dir GTDBTK_out \
+      --extension .fna \
+      --scratch_dir $TMPDIR \
+      --tmpdir $TMPDIR \
+      --skip_ani_screen \
+      --min_perc_aa 0 \
+      --pplacer_cpus 1 \
+      --cpus $SLURM_CPUS_PER_TASK \
+      --genome_dir Aliarcobacter_genomes/
+```
+
