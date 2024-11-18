@@ -117,6 +117,7 @@ quast --output-dir QUAST_nanopore barcode*_flye/assembly.fasta barcode*_unicycle
 ### Genome annotation
 
 When choosing the best assembly methods, resulting genomes are annotated using bakta.  
+Replace the `{STRAIN_NAME_HERE}` with the actual strain name.  
 _Resources: 6 CPU, 10 Gb mem, 2h_
 
 ```bash
@@ -125,12 +126,12 @@ best_assembler="flye"
 for barcode in 15 16 17; do
 	/projappl/project_2005273/bakta/bin/bakta \
        barcode${barcode}_${best_assembler}/assembly.fasta \
-      --db /projappl/project_2005273/DBs/bakta/db/ \
-      --prefix barcode${barcode}  \
-      --genus Arcobacter \
-      --locus barcode${barcode} \
+      --db /scratch/project_2005273/DBs/bakta/db/ \
+      --prefix {STRAIN_NAME_HERE}  \
+      --genus Aliarcobacter \
+      --locus STRAIN_NAME_HERE \
       --threads $SLURM_CPUS_PER_TASK \
-      --output barcode${barcode}_bakta
+      --output {STRAIN_NAME_HERE}_bakta
 done
 ```
 

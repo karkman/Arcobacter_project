@@ -3,3 +3,5 @@ DBs/*
 nanoplot*
 nanoQC*
 trimmed_nanopore/*
+barcode*/*
+QUAST*
