@@ -177,7 +177,8 @@ export GTDBTK_DATA_PATH="/scratch/project_2005273/Arcobacter_project/DBs/gtdb/re
 
 ### Antibiotic resistance annotations
 
-Abricate & Abritamr
+__Abricate & Abritamr__
+Abricate has also other databases available, including virulence factors and plasmids. You need to change the `--db` option. The different databases can be listed with `--list` option. 
 Abritamr has also some species specific point mutations, but the closest relative is Campylobacter. If we think it could be relevant, add `--species Campylobacter` to the command.  
 _Resources: 6 CPU, 10 Gb mem, 2h_
 
