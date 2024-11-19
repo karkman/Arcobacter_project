@@ -190,6 +190,6 @@ done
 
 # abritamr
 for barcode in 15 16 17; do
-	/projappl/project_2005273/arg_tools/bin/abritamr run --jobs 6 barcode${barcode}_bakta/barcode${barcode}.fna --prefix barcode${barcode}_abritamr 
+	/projappl/project_2005273/arg_tools/bin/abritamr run --jobs 6 --contigs barcode${barcode}_bakta/barcode${barcode}.fna --prefix barcode${barcode}_abritamr 
 done 
 ```
