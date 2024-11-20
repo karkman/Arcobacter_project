@@ -148,6 +148,8 @@ We will use CheckM2 to estimate the completeness of the assemblies.
 _Resources: 6 CPU, 75 Gb mem, 2h_
 
 ```bash
+export CHECKM2DB="/scratch/project_2005273/Arcobacter_project/DBs/checkm2/CheckM2_database/uniref100.KO.1.dmnd"
+
 /projappl/project_2005273/tax_tools/bin/checkm2 predict \
       --output-directory CheckM2_out \
       --lowmem \
