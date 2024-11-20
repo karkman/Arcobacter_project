@@ -155,6 +155,7 @@ export CHECKM2DB="/scratch/project_2005273/Arcobacter_project/DBs/checkm2/CheckM
       --lowmem \
       --extension .fna \
       --tmpdir $TMPDIR \
+	  --threads $SLURM_CPUS_PER_TASK \
       --input Aliarcobacter_genomes/
 ```
 
