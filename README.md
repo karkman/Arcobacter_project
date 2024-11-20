@@ -138,7 +138,8 @@ Make a folder with softlinks for each of the genomes
 
 ```bash
 mkdir Aliarcobacter_genomes
-ln -s barcode*_bakta/*.fna Aliarcobacter_genomes/
+ln -s /scratch/project_2005273/Arcobacter_project/barcode*_bakta/*.fna Aliarcobacter_genomes/
+
 ```
 
 ### Genome completeness estimation  
