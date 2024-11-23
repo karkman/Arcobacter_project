@@ -207,9 +207,9 @@ First we need to download the selected reference genomes from the publicly avail
 module load biokit
 
 datasets download genome accession \
-        # write the accession here divided by whitespace and put a "\" at the end
-		--include genome \
-        --no-progressbar
+     # write the accession here divided by whitespace and put a "\" at the end
+	--include genome \
+    --no-progressbar
 
 unzip ncbi_dataset.zip -d aliarcobater_butzleri
 module purge
@@ -222,14 +222,14 @@ _Resources: 8 CPU, 40 Gb mem, 4h_
 for GENOME in `ls aliarcobater_butzleri/ncbi_dataset/data/*/genomic.fna`; do
 	ACC=${GENOME#aliarcobater_butzleri/ncbi_dataset/data/}
 	ACC=${ACC%/genomic.fna}
-	/projappl/project_2005273/bakta/bin/bakta \
-       aliarcobater_butzleri/ncbi_dataset/data/${ACC}/genomic.fna \
-      --db /scratch/project_2005273/Arcobacter_project/DBs/bakta/db \
-      --prefix ${ACC} \
-      --genus Aliarcobacter \
-      --locus ${ACC} \
-      --threads $SLURM_CPUS_PER_TASK \
-      --output ${ACC}_bakta
+    /projappl/project_2005273/bakta/bin/bakta \
+        aliarcobater_butzleri/ncbi_dataset/data/${ACC}/genomic.fna \
+        --db /scratch/project_2005273/Arcobacter_project/DBs/bakta/db \
+        --prefix ${ACC} \
+        --genus Aliarcobacter \
+        --locus ${ACC} \
+        --threads $SLURM_CPUS_PER_TASK \
+        --output ${ACC}_bakta
 done
 ```
 
@@ -247,8 +247,8 @@ module load anvio/8
 
 for GENOME in `ls pangenomics/*.gbff`; do
 	anvi-script-process-genbank \
-		-i ${GENOME} \
-		--output-fasta pangenomics/${GENOME%.gbff}-contigs.fasta \
+        -i ${GENOME} \
+        --output-fasta pangenomics/${GENOME%.gbff}-contigs.fasta \
         --output-gene-calls pangenomics/${GENOME%.gbff}-gene-calls.txt \
         --output-functions pangenomics/${GENOME%.gbff}-functions.txt \
         --annotation-source prodigal \
@@ -260,8 +260,7 @@ Make a file describing all the genomes and the paths to different files containi
 
 ```bash
 echo -e "name\tpath\texternal_gene_calls\tgene_functional_annotation" > fasta.txt
-for strain in `ls pangenomics/*-contigs.fasta`
-do
+for strain in `ls pangenomics/*-contigs.fasta`; do
     strain_name=${strain#pangenomics/}
     echo -e ${strain_name%-contigs.fasta}"\t"$strain"\t"${strain%-contigs.fasta}"-gene-calls.txt\t"${strain%-contigs.fasta}"-functions.txt"
 done >> fasta.txt
@@ -306,7 +305,7 @@ And then we can run the pangenomics workflow.
 anvi-run-workflow -w pangenomics -c config.json
 ```
 
-Then it can be visualised interactively. 
+Then it can be visualised interactively (this won't work using the web browser).  
 
 ```bash
 cd pangenomics/03_PAN
