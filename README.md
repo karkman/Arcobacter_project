@@ -179,7 +179,7 @@ export GTDBTK_DATA_PATH="/scratch/project_2005273/Arcobacter_project/DBs/gtdb/re
       --genome_dir Aliarcobacter_genomes/
 ```
 
-### Antibiotic resistance annotations
+### Antibiotic resistance gene annotations
 
 __Abricate & Abritamr__
 Abricate has also other databases available, including virulence factors and plasmids. You need to change the `--db` option. The different databases can be listed with `--list` option. 
@@ -196,4 +196,119 @@ done
 for barcode in 15 16 17; do
 	/projappl/project_2005273/arg_tools/bin/abritamr run --jobs 6 --contigs barcode${barcode}_bakta/barcode${barcode}.fna --prefix barcode${barcode}_abritamr 
 done 
+```
+
+### Pangenomics with anvi'o
+
+For comparative genomis we'll do pangenomics with anvi'o.  
+First we need to download the selected reference genomes from the publicly available _A. butzleri_ isolates. 
+
+```bash
+module load biokit
+
+datasets download genome accession \
+        # write the accession here divided by whitespace and put a "\" at the end
+		--include genome \
+        --no-progressbar
+
+unzip ncbi_dataset.zip -d aliarcobater_butzleri
+module purge
+```
+
+Then annotate those genomes with bakta.  
+_Resources: 8 CPU, 40 Gb mem, 4h_
+
+```bash
+for GENOME in `ls aliarcobater_butzleri/ncbi_dataset/data/*/genomic.fna`; do
+	ACC=${GENOME#aliarcobater_butzleri/ncbi_dataset/data/}
+	ACC=${ACC%/genomic.fna}
+	/projappl/project_2005273/bakta/bin/bakta \
+       aliarcobater_butzleri/ncbi_dataset/data/${ACC}/genomic.fna \
+      --db /scratch/project_2005273/Arcobacter_project/DBs/bakta/db \
+      --prefix ${ACC} \
+      --genus Aliarcobacter \
+      --locus ${ACC} \
+      --threads $SLURM_CPUS_PER_TASK \
+      --output ${ACC}_bakta
+done
+```
+
+For each genome to be included (in this case all, including reference and own isolate genomes), copy the genbank file (from bakta output folder) into a separate folder. 
+
+```bash
+mkdir pangenomics
+cp *_bakta/*.gbff pangenomics/
+```
+
+Process the genbank files for anvi'o pangenomics workflow
+
+```bash 
+module load anvio/8
+
+for GENOME in `ls pangenomics/*.gbff`; do
+	anvi-script-process-genbank \
+		-i ${GENOME} \
+		--output-fasta pangenomics/${GENOME%.gbff}-contigs.fasta \
+        --output-gene-calls pangenomics/${GENOME%.gbff}-gene-calls.txt \
+        --output-functions pangenomics/${GENOME%.gbff}-functions.txt \
+        --annotation-source prodigal \
+        --annotation-version v2.6.3
+done
+```
+
+Make a file describing all the genomes and the paths to different files containing the genomic sequence, the gene calls, and functional annotations for each gene.  
+
+```bash
+echo -e "name\tpath\texternal_gene_calls\tgene_functional_annotation" > fasta.txt
+for strain in `ls pangenomics/*-contigs.fasta`
+do
+    strain_name=${strain#pangenomics/}
+    echo -e ${strain_name%-contigs.fasta}"\t"$strain"\t"${strain%-contigs.fasta}"-gene-calls.txt\t"${strain%-contigs.fasta}"-functions.txt"
+done >> fasta.txt
+```
+
+In case we want to rename the genomes with more than accessions and barcode numbers, modify the first column of the `fasta.txt` file accordingly.  
+This might make the pangenome visualization more informative, if each genome has a meaningful name.  
+
+
+Then we need a configuration file, called `config.json`, and it will have the following content: 
+
+```
+{
+    "workflow_name": "pangenomics",
+    "config_version": "3",
+    "max_threads": "8",
+    "project_name": "Aliarcobater_butzleri_pangenome",
+    "external_genomes": "external-genomes.txt",
+    "fasta_txt": "fasta.txt",
+    "anvi_gen_contigs_database": {
+        "--project-name": "{group}",
+        "--description": "",
+        "--skip-gene-calling": "",
+        "--ignore-internal-stop-codons": true,
+        "--skip-mindful-splitting": "",
+        "--contigs-fasta": "",
+        "--split-length": "",
+        "--kmer-size": "",
+        "--skip-predict-frame": "",
+        "--prodigal-translation-table": "",
+        "threads": ""
+    },
+    "anvi_pan_genome": {
+      "threads": "8"
+    }
+}
+```
+
+And then we can run the pangenomics workflow.
+
+```bash
+anvi-run-workflow -w pangenomics -c config.json
+```
+
+Then it can be visualised interactively. 
+
+```bash
+cd pangenomics/03_PAN
+anvi-display-pan -P 8999
 ```
