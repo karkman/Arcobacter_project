@@ -207,8 +207,8 @@ First we need to download the selected reference genomes from the publicly avail
 module load biokit
 
 datasets download genome accession \
-     # write the accession here divided by whitespace and put a "\" at the end
-	--include genome \
+    # write the accession here divided by whitespace and put a "\" at the end
+    --include genome \
     --no-progressbar
 
 unzip ncbi_dataset.zip -d aliarcobater_butzleri
@@ -220,8 +220,8 @@ _Resources: 8 CPU, 40 Gb mem, 4h_
 
 ```bash
 for GENOME in `ls aliarcobater_butzleri/ncbi_dataset/data/*/genomic.fna`; do
-	ACC=${GENOME#aliarcobater_butzleri/ncbi_dataset/data/}
-	ACC=${ACC%/genomic.fna}
+    ACC=${GENOME#aliarcobater_butzleri/ncbi_dataset/data/}
+    ACC=${ACC%/genomic.fna}
     /projappl/project_2005273/bakta/bin/bakta \
         aliarcobater_butzleri/ncbi_dataset/data/${ACC}/genomic.fna \
         --db /scratch/project_2005273/Arcobacter_project/DBs/bakta/db \
