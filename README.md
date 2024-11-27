@@ -215,20 +215,28 @@ unzip ncbi_dataset.zip -d aliarcobater_butzleri
 module purge
 ```
 
+Make a separate folder for all reference genomes.  
+
+```bash
+mkdir reference_genomes
+cp aliarcobater_butzleri/ncbi_dataset/data/*/*_genomic.fna reference_genomes/
+```
+
 Then annotate those genomes with bakta.  
 _Resources: 8 CPU, 40 Gb mem, 4h_
 
+
 ```bash
-for GENOME in `ls aliarcobater_butzleri/ncbi_dataset/data/*/*_genomic.fna`; do
-    ACC=${GENOME#aliarcobater_butzleri/ncbi_dataset/data/}
+for GENOME in `ls reference_genomes/*_genomic.fna`; do
+    ACC=${GENOME#reference_genomes/}
     ACC=${ACC%_genomic.fna}
     /projappl/project_2005273/bakta/bin/bakta \
         $GENOME \
         --db /scratch/project_2005273/Arcobacter_project/DBs/bakta/db \
         --genus Aliarcobacter \
-        --locus ${ACC} \
         --threads $SLURM_CPUS_PER_TASK \
-        --output ${GENOME}_bakta
+        --output ${ACC}_bakta \
+        --force
 done
 ```
 
