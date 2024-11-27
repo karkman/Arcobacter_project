@@ -223,7 +223,7 @@ for GENOME in `ls aliarcobater_butzleri/ncbi_dataset/data/*/*_genomic.fna`; do
     ACC=${GENOME#aliarcobater_butzleri/ncbi_dataset/data/}
     ACC=${ACC%_genomic.fna}
     /projappl/project_2005273/bakta/bin/bakta \
-        aliarcobater_butzleri/ncbi_dataset/data/${ACC}/genomic.fna \
+        $GENOME \
         --db /scratch/project_2005273/Arcobacter_project/DBs/bakta/db \
         --prefix ${ACC} \
         --genus Aliarcobacter \
