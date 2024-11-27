@@ -225,11 +225,10 @@ for GENOME in `ls aliarcobater_butzleri/ncbi_dataset/data/*/*_genomic.fna`; do
     /projappl/project_2005273/bakta/bin/bakta \
         $GENOME \
         --db /scratch/project_2005273/Arcobacter_project/DBs/bakta/db \
-        --prefix ${ACC} \
         --genus Aliarcobacter \
         --locus ${ACC} \
         --threads $SLURM_CPUS_PER_TASK \
-        --output ${ACC}_bakta
+        --output ${GENOME}_bakta
 done
 ```
 
