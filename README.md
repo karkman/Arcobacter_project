@@ -253,11 +253,12 @@ Process the genbank files for anvi'o pangenomics workflow
 module load anvio/8
 
 for GENOME in `ls pangenomics/*.gbff`; do
+    GENOME_NAME=${GENOME#pangenomics/}
 	anvi-script-process-genbank \
         -i ${GENOME} \
-        --output-fasta pangenomics/${GENOME%.gbff}-contigs.fasta \
-        --output-gene-calls pangenomics/${GENOME%.gbff}-gene-calls.txt \
-        --output-functions pangenomics/${GENOME%.gbff}-functions.txt \
+        --output-fasta pangenomics/${GENOME_NAME%.gbff}-contigs.fasta \
+        --output-gene-calls pangenomics/${GENOME_NAME%.gbff}-gene-calls.txt \
+        --output-functions pangenomics/${GENOME_NAME%.gbff}-functions.txt \
         --annotation-source prodigal \
         --annotation-version v2.6.3
 done
