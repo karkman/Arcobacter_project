@@ -254,7 +254,7 @@ module load anvio/8
 
 for GENOME in `ls pangenomics/*.gbff`; do
     GENOME_NAME=${GENOME#pangenomics/}
-	anvi-script-process-genbank \
+    anvi-script-process-genbank \
         -i ${GENOME} \
         --output-fasta pangenomics/${GENOME_NAME%.gbff}-contigs.fasta \
         --output-gene-calls pangenomics/${GENOME_NAME%.gbff}-gene-calls.txt \
