@@ -319,3 +319,35 @@ Then it can be visualised interactively (this won't work using the web browser).
 cd pangenomics/03_PAN
 anvi-display-pan -P 8999
 ```
+
+Display the collections and bins in your pangenome. 
+
+```bash
+anvi-show-collections-and-bins -p 03_PAN/Aliarcobater_butzleri_pangenome-PAN.db 
+```
+
+Get the singe-copy gene cluster and draw a tree. Run in the `03_PAN` folder.  
+
+```bash 
+anvi-get-sequences-for-gene-clusters \
+    -p Aliarcobater_butzleri_pangenome-PAN.db \
+    -g Aliarcobater_butzleri_pangenome-GENOMES.db \
+    -C My_first_collection -b SCG \
+    --concatenate-gene-clusters \
+    -o single-copy-core-genes.fa                               
+
+anvi-gen-phylogenomic-tree \
+    -f single-copy-core-genes.fa  \
+    -o SCG.tre
+```
+
+Get unique genes for each strain.  
+
+```bash
+anvi-get-sequences-for-gene-clusters \
+    -p Aliarcobater_butzleri_pangenome-PAN.db \
+    -g Aliarcobater_butzleri_pangenome-GENOMES.db \
+    -C My_first_collection -b barcode15_chunk \
+    --concatenate-gene-clusters \
+    -o barcode15_chunk.fa
+```                               
